@@ -18,22 +18,12 @@
   <strong>A high-fidelity fintech web portal featuring premium 3D interactions, contextual AI chat, intelligent search, and real-time analytics inspired by the CRED ecosystem.</strong>
 </p>
 
-<p>
-  <a href="#-live-demo">
-    <img src="https://img.shields.io/badge/🚀_Live_Demo-000000?style=for-the-badge" alt="Live Demo" />
-  </a>
-  <a href="#-demo-video">
-    <img src="https://img.shields.io/badge/🎥_Demo_Video-000000?style=for-the-badge" alt="Demo Video" />
-  </a>
-  <a href="#-key-features">
-    <img src="https://img.shields.io/badge/✨_Features-000000?style=for-the-badge" alt="Features" />
-  </a>
-  <a href="#%EF%B8%8F-technologies-used">
-    <img src="https://img.shields.io/badge/🛠️_Technologies-000000?style=for-the-badge" alt="Technologies" />
-  </a>
-  <a href="#%EF%B8%8F-installation--setup">
-    <img src="https://img.shields.io/badge/⚙️_Setup-000000?style=for-the-badge" alt="Setup" />
-  </a>
+<p align="center">
+  <img src="https://img.shields.io/badge/🚀_LIVE_DEMO-000000?style=for-the-badge" alt="Live Demo" />
+  <img src="https://img.shields.io/badge/🎥_DEMO_VIDEO-000000?style=for-the-badge" alt="Demo Video" />
+  <img src="https://img.shields.io/badge/✨_FEATURES-000000?style=for-the-badge" alt="Features" />
+  <img src="https://img.shields.io/badge/🛠️_TECHNOLOGIES-000000?style=for-the-badge" alt="Technologies" />
+  <img src="https://img.shields.io/badge/⚙️_SETUP-000000?style=for-the-badge" alt="Setup" />
 </p>
 
 </div>
