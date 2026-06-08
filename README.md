@@ -19,6 +19,12 @@
 </p>
 
 <p>
+  <a href="#-live-demo">
+    <img src="https://img.shields.io/badge/🚀_Live_Demo-000000?style=for-the-badge" alt="Live Demo" />
+  </a>
+  <a href="#-demo-video">
+    <img src="https://img.shields.io/badge/🎥_Demo_Video-000000?style=for-the-badge" alt="Demo Video" />
+  </a>
   <a href="#-key-features">
     <img src="https://img.shields.io/badge/✨_Features-000000?style=for-the-badge" alt="Features" />
   </a>
@@ -35,6 +41,28 @@
 <br />
 
 > Designed as a robust full-stack monorepo, this project pairs a meticulously crafted, high-end frontend clone of the CRED platform with a lightweight Express backend. It showcases cutting-edge UI/UX engineering—including mouse-tilt 3D perspectives, global command overlays, CSS keyframe animations, contextual AI chat, intelligent search experiences, and real-time statistics.
+
+---
+
+## 🚀 Live Demo
+
+A live version of the application is hosted here:
+
+**[Add Your Deployment URL Here]**
+
+---
+
+## 🎥 Demo Video
+
+<p align="center">
+  <a href="https://youtu.be/l9b0cWi2kYM">
+    <img src="https://img.shields.io/badge/▶️_Watch_Full_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Demo">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://youtu.be/l9b0cWi2kYM">https://youtu.be/l9b0cWi2kYM</a>
+</p>
 
 ---
 
