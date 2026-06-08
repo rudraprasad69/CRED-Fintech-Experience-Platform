@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRED — Crafted for the Creditworthy</title>
+  <meta name="description" content="CRED is a members-only platform for the creditworthy. Pay credit card bills, earn exclusive rewards, and access premium experiences." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #080808;
+      --dark:    #0d0d0d;
+      --card:    #111111;
+      --white:   #ffffff;
+      --off:     #d8d8d8;
+      --muted:   #808080;
+      --border:  rgba(255,255,255,0.07);
+      --green:   #00c853;
+      --gold:    #c8a96e;
+      --ease:    cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar        { width: 3px; }
+    ::-webkit-scrollbar-track  { background: var(--black); }
+    ::-webkit-scrollbar-thumb  { background: #2a2a2a; border-radius: 3px; }
+
+    a { text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── NAV ────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 56px;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    .nav.scrolled {
+      background: #ffffff;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      transition: background 0.35s ease, border-color 0.35s ease;
+    }
+    /* flip all nav text/icons to dark on white background */
+    .nav.scrolled .nav-logo svg          { filter: invert(1); }
+    .nav.scrolled .nav-links a           { color: rgba(0,0,0,0.7); }
+    .nav.scrolled .nav-links a:hover     { color: #000000; }
+    .nav.scrolled .search-trigger        { color: rgba(0,0,0,0.55); border-color: rgba(0,0,0,0.14); }
+    .nav.scrolled .search-trigger:hover  { color: rgba(0,0,0,0.8); border-color: rgba(0,0,0,0.28); }
+    .nav.scrolled .search-trigger kbd    { background: rgba(0,0,0,0.07); color: rgba(0,0,0,0.4); }
+    .nav.scrolled .btn-nav               { background: #080808; color: #ffffff; }
+    .nav.scrolled .btn-nav:hover         { box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+    .nav.scrolled .hamburger span        { background: #080808; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .nav-logo svg { width: 34px; height: 39px; }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; color: var(--off);
+      letter-spacing: 0.02em; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+
+    .btn-nav {
+      background: var(--white); color: var(--black);
+      border: none; border-radius: 100px;
+      padding: 9px 22px; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s var(--ease);
+    }
+    .btn-nav:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,255,255,0.12); }
+
+    .search-trigger {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 18px; border-radius: 100px;
+      border: 1px solid var(--border); background: none;
+      color: var(--muted); font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+      font-family: inherit;
+    }
+    .search-trigger:hover { border-color: rgba(255,255,255,0.2); color: var(--off); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--white); border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-canvas {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(100,70,20,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 25% 0%, rgba(160,110,40,0.10) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 75% 0%, rgba(140,90,30,0.08) 0%, transparent 50%),
+        linear-gradient(180deg, #130f06 0%, #0c0a05 25%, #080808 60%);
+    }
+
+    /* Architectural grid / coffered ceiling illusion */
+    .hero-arch {
+      position: absolute; inset: 0 0 40% 0; z-index: 0; opacity: 0.6;
+      background-image:
+        linear-gradient(rgba(180,140,60,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(180,140,60,0.07) 1px, transparent 1px),
+        linear-gradient(rgba(180,140,60,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(180,140,60,0.03) 1px, transparent 1px);
+      background-size: 120px 120px, 120px 120px, 40px 40px, 40px 40px;
+      -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, black 0%, transparent 80%);
+      mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, black 0%, transparent 80%);
+    }
+
+    /* Crepuscular light rays */
+    .hero-rays {
+      position: absolute; top: 0; left: 50%; z-index: 0;
+      transform: translateX(-50%);
+      width: 100%; height: 70%;
+      overflow: hidden;
+    }
+    .ray {
+      position: absolute; top: 0; width: 2px;
+      background: linear-gradient(180deg, rgba(255,210,100,0.35) 0%, rgba(255,200,80,0.08) 50%, transparent 100%);
+      filter: blur(1.5px);
+      transform-origin: top center;
+    }
+    .ray::before {
+      content: '';
+      position: absolute; top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,225,130,0.95);
+      box-shadow: 0 0 14px 4px rgba(255,210,80,0.6), 0 0 40px 10px rgba(255,180,40,0.2);
+    }
+    .ray:nth-child(1)  { left: 14%; height: 55%; transform: rotate(-10deg); }
+    .ray:nth-child(2)  { left: 22%; height: 65%; transform: rotate(-6deg); }
+    .ray:nth-child(3)  { left: 31%; height: 72%; }
+    .ray:nth-child(4)  { left: 40%; height: 78%; transform: rotate(2deg); }
+    .ray:nth-child(5)  { left: 50%; height: 82%; }
+    .ray:nth-child(6)  { left: 60%; height: 78%; transform: rotate(-2deg); }
+    .ray:nth-child(7)  { left: 69%; height: 72%; }
+    .ray:nth-child(8)  { left: 78%; height: 65%; transform: rotate(6deg); }
+    .ray:nth-child(9)  { left: 86%; height: 55%; transform: rotate(10deg); }
+
+    .hero-vignette {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 100% 80% at 50% 100%, rgba(8,8,8,0.9) 0%, transparent 70%);
+    }
+
+    .hero-body {
+      position: relative; z-index: 1;
+      padding: 0 80px 100px;
+      max-width: 1280px;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 28px;
+    }
+
+    .hero-h1 {
+      font-size: clamp(52px, 7.5vw, 100px);
+      font-weight: 900; line-height: 1.0;
+      letter-spacing: -0.04em;
+      margin-bottom: 28px; max-width: 720px;
+    }
+    .hero-h1 em { font-style: italic; color: rgba(255,255,255,0.6); }
+
+    .hero-sub {
+      font-size: 15px; color: var(--muted); max-width: 400px;
+      line-height: 1.75; margin-bottom: 48px;
+    }
+
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .btn-white {
+      background: var(--white); color: var(--black);
+      border: none; border-radius: 100px;
+      padding: 16px 36px; font-size: 15px; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.25s var(--ease); font-family: inherit;
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(255,255,255,0.14); }
+
+    .btn-ghost {
+      background: transparent; color: var(--off);
+      border: 1px solid var(--border); border-radius: 100px;
+      padding: 16px 36px; font-size: 15px; font-weight: 600;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.25s var(--ease); font-family: inherit;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+
+    .hero-scroll-hint {
+      position: absolute; bottom: 40px; right: 80px; z-index: 1;
+      display: flex; align-items: center; gap: 12px;
+      color: var(--muted); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .scroll-line { width: 40px; height: 1px; background: var(--muted); }
+
+    /* ─── TICKER MARQUEE ─────────────────────────────────── */
+    .ticker {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 18px 0; overflow: hidden; background: var(--black);
+    }
+    .ticker-track {
+      display: flex; gap: 0; width: max-content;
+      animation: ticker-scroll 28s linear infinite;
+    }
+    .ticker-item {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--muted);
+      white-space: nowrap; padding: 0 40px;
+      display: flex; align-items: center; gap: 40px;
+    }
+    .ticker-item::after { content: '◆'; font-size: 5px; color: rgba(255,255,255,0.12); }
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ─── SHARED SECTION STYLES ──────────────────────────── */
+    .section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 28px;
+    }
+
+    /* reveal animation */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: 0.10s; }
+    .reveal.d2 { transition-delay: 0.20s; }
+    .reveal.d3 { transition-delay: 0.30s; }
+    .reveal.d4 { transition-delay: 0.45s; }
+
+    /* ─── STORY SECTION ──────────────────────────────────── */
+    .story {
+      padding: 140px 80px;
+      border-top: 1px solid var(--border);
+      background: var(--black);
+    }
+    .story-inner { max-width: 1100px; }
+
+    .story-h2 {
+      font-size: clamp(34px, 5vw, 66px);
+      font-weight: 800; line-height: 1.18;
+      letter-spacing: -0.025em; max-width: 950px;
+    }
+    .story-h2 .dim { color: rgba(255,255,255,0.28); }
+
+    /* ─── DESERVE SECTION ────────────────────────────────── */
+    .deserve {
+      padding: 140px 80px;
+      border-top: 1px solid var(--border);
+      background: var(--black);
+    }
+    .deserve-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+
+    .deserve-h2 {
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 900; line-height: 1.04; letter-spacing: -0.035em;
+      margin-bottom: 24px;
+    }
+    .deserve-desc { font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 420px; margin-bottom: 48px; }
+
+    .stats-row { display: flex; gap: 40px; }
+    .stat-num { font-size: 32px; font-weight: 900; letter-spacing: -0.025em; }
+    .stat-lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    /* Phone mockup */
+    .phone-wrap { display: flex; justify-content: center; position: relative; }
+    .phone {
+      width: 255px; height: 530px;
+      background: linear-gradient(150deg, #1e1e1e 0%, #101010 100%);
+      border-radius: 44px; border: 1px solid rgba(255,255,255,0.10);
+      position: relative; overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04),
+        0 32px 90px rgba(0,0,0,0.85),
+        inset 0 1px 0 rgba(255,255,255,0.09);
+    }
+    .phone-notch {
+      width: 90px; height: 26px;
+      background: #080808; border-radius: 0 0 18px 18px;
+      margin: 0 auto;
+    }
+    .phone-screen { padding: 12px 18px 20px; }
+
+    .phone-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .p-time { font-size: 10px; color: rgba(255,255,255,0.3); }
+
+    .p-card {
+      background: linear-gradient(145deg, #191933, #101828);
+      border-radius: 16px; padding: 18px;
+      margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.05);
+    }
+    .p-card-lbl { font-size: 9px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+    .p-card-val { font-size: 26px; font-weight: 900; }
+    .p-card-sub { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+    .p-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .p-tile {
+      background: rgba(255,255,255,0.04); border-radius: 12px;
+      padding: 12px; border: 1px solid rgba(255,255,255,0.04);
+    }
+    .p-tile-lbl { font-size: 8px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+    .p-tile-val { font-size: 15px; font-weight: 800; }
+    .p-tile.g .p-tile-val { color: #69f0ae; }
+
+    .phone-glow {
+      position: absolute; width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(0,200,83,0.12) 0%, transparent 70%);
+      bottom: -60px; left: 50%; transform: translateX(-50%);
+      filter: blur(30px); z-index: -1;
+    }
+
+    /* ─── CREDIT CARDS SECTION ───────────────────────────── */
+    .cards-section {
+      padding: 140px 80px;
+      border-top: 1px solid var(--border);
+      background: #0a0a0a;
+    }
+    .cards-inner { max-width: 1200px; margin: 0 auto; }
+
+    .cards-h2 {
+      font-size: clamp(36px, 5vw, 62px);
+      font-weight: 900; line-height: 1.04; letter-spacing: -0.035em;
+      margin-bottom: 20px; max-width: 560px;
+    }
+    .cards-desc { font-size: 15px; color: var(--muted); max-width: 480px; line-height: 1.75; margin-bottom: 60px; }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    .f-card {
+      background: rgba(255,255,255,0.025); border: 1px solid var(--border);
+      border-radius: 22px; padding: 32px;
+      transition: all 0.3s var(--ease);
+    }
+    .f-card:hover {
+      background: rgba(255,255,255,0.045);
+      border-color: rgba(255,255,255,0.12);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    }
+    .f-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+    }
+    .f-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .f-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* ─── UPGRADE SECTION ────────────────────────────────── */
+    .upgrade {
+      padding: 140px 80px;
+      border-top: 1px solid var(--border);
+      background: var(--black);
+    }
+    .upgrade-inner { max-width: 1200px; margin: 0 auto; }
+
+    .upgrade-h2 {
+      font-size: clamp(40px, 5.5vw, 70px);
+      font-weight: 900; line-height: 1.04; letter-spacing: -0.04em;
+      margin-bottom: 56px;
+    }
+
+    .upgrade-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+    .u-card {
+      border-radius: 26px; overflow: hidden;
+      position: relative; aspect-ratio: 0.75; cursor: pointer;
+      transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    }
+    .u-card:hover { transform: scale(1.025); box-shadow: 0 24px 72px rgba(0,0,0,0.6); }
+
+    .u-bg { position: absolute; inset: 0; }
+    .u-card.scan  .u-bg { background: linear-gradient(145deg, #0d1b2a 0%, #12375f 55%, #0a1c33 100%); }
+    .u-card.upi   .u-bg { background: linear-gradient(145deg, #17082c 0%, #391560 55%, #230848 100%); }
+    .u-card.tap   .u-bg { background: linear-gradient(145deg, #081508 0%, #164516 55%, #0a240a 100%); }
+
+    .u-body {
+      position: relative; z-index: 1;
+      padding: 34px 28px; height: 100%;
+      display: flex; flex-direction: column;
+    }
+    .u-label {
+      font-size: 9px; font-weight: 800; letter-spacing: 0.22em;
+      text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px;
+    }
+    .u-title {
+      font-size: clamp(20px, 2.2vw, 30px);
+      font-weight: 900; line-height: 1.1; letter-spacing: -0.025em;
+      margin-bottom: 10px;
+    }
+    .u-desc { font-size: 12px; color: rgba(255,255,255,0.42); line-height: 1.6; }
+    .u-visual { flex: 1; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 12px; }
+
+    /* QR illustration */
+    .qr-box {
+      width: 96px; height: 96px; border-radius: 14px;
+      background: rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qr-inner {
+      width: 68px; height: 68px; border-radius: 5px;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.12) 0px, rgba(255,255,255,0.12) 2.5px, transparent 2.5px, transparent 8px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0px, rgba(255,255,255,0.12) 2.5px, transparent 2.5px, transparent 8px);
+    }
+
+    /* UPI visual */
+    .upi-amt { font-size: 38px; font-weight: 900; text-align: center; color: rgba(255,255,255,0.78); }
+    .upi-sub { font-size: 10px; color: rgba(255,255,255,0.25); text-align: center; margin-top: 4px; letter-spacing: 0.1em; }
+
+    /* TAP visual */
+    .tap-ring {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(0,200,83,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(0,200,83,0.3); }
+      50%      { box-shadow: 0 0 0 22px rgba(0,200,83,0); }
+    }
+
+    /* ─── SECURITY SECTION ───────────────────────────────── */
+    .security {
+      padding: 170px 80px;
+      border-top: 1px solid var(--border);
+      background: #080808; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .security::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(0,200,83,0.04) 0%, transparent 70%);
+    }
+    .sec-inner { position: relative; z-index: 1; max-width: 840px; margin: 0 auto; }
+
+    .shield-svg { width: 76px; height: 76px; margin: 0 auto 44px; }
+
+    .sec-h2 {
+      font-size: clamp(38px, 5.5vw, 70px);
+      font-weight: 900; line-height: 1.04; letter-spacing: -0.04em;
+      margin-bottom: 28px;
+    }
+    .sec-tag {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 44px;
+    }
+    .sec-body {
+      font-size: clamp(17px, 2.4vw, 26px); font-weight: 400;
+      color: var(--off); line-height: 1.65; max-width: 660px; margin: 0 auto;
+    }
+
+    /* ─── RATINGS SECTION ────────────────────────────────── */
+    .ratings {
+      padding: 140px 80px;
+      border-top: 1px solid var(--border);
+      background: var(--black);
+    }
+    .ratings-inner { max-width: 1200px; margin: 0 auto; }
+
+    .ratings-h2 {
+      font-size: clamp(38px, 5.5vw, 70px);
+      font-weight: 900; line-height: 1.04; letter-spacing: -0.04em;
+      margin-bottom: 60px;
+    }
+    .rating-row { display: flex; gap: 24px; flex-wrap: wrap; }
+
+    .r-card {
+      background: rgba(255,255,255,0.025); border: 1px solid var(--border);
+      border-radius: 22px; padding: 32px; min-width: 220px;
+    }
+    .r-store { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+    .r-score { font-size: 60px; font-weight: 900; line-height: 1; letter-spacing: -0.04em; }
+    .r-stars { display: flex; gap: 3px; margin: 10px 0 6px; }
+    .r-stars span { color: #FFB800; font-size: 17px; }
+    .r-stars span.half { opacity: 0.4; }
+    .r-count { font-size: 12px; color: var(--muted); }
+
+    .trusted-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 100px; padding: 12px 22px; margin-top: 40px;
+    }
+    .trusted-badge span { font-size: 13px; font-weight: 700; }
+    .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+
+    /* ─── EXCLUSIVE / CTA SECTION ───────────────────────── */
+    .exclusive {
+      min-height: 100vh; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      border-top: 1px solid var(--border);
+    }
+    .ex-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 50% 65% at 50% 100%, rgba(255,210,80,0.1) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 50% 80%,  rgba(180,120,30,0.07) 0%, transparent 60%),
+        linear-gradient(180deg, #080808 0%, #0d0b05 50%, #080808 100%);
+    }
+    .door-glow {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 240px; height: 58%;
+      background: linear-gradient(0deg, rgba(255,210,80,0.13) 0%, rgba(255,195,60,0.05) 45%, transparent 70%);
+      clip-path: polygon(18% 0%, 82% 0%, 100% 100%, 0% 100%);
+    }
+    .door-arch {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 110px; height: 230px;
+      border: 1px solid rgba(255,200,90,0.13); border-bottom: none;
+      border-radius: 55px 55px 0 0;
+    }
+    .ex-inner {
+      position: relative; z-index: 1;
+      text-align: center; padding: 100px 80px; max-width: 860px;
+    }
+    .ex-h2 {
+      font-size: clamp(54px, 9vw, 116px);
+      font-weight: 900; line-height: 1.0; letter-spacing: -0.05em;
+      margin-bottom: 32px;
+    }
+    .ex-desc { font-size: 15px; color: var(--muted); max-width: 460px; margin: 0 auto 44px; line-height: 1.75; }
+
+    /* ─── FAQ ────────────────────────────────────────────── */
+    .faq { padding: 120px 80px; border-top: 1px solid var(--border); background: var(--black); }
+    .faq-inner { max-width: 760px; }
+
+    .faq-h2 { font-size: 38px; font-weight: 900; letter-spacing: -0.025em; margin-bottom: 48px; }
+
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      width: 100%; background: none; border: none; color: var(--white);
+      font-family: inherit; font-size: 16px; font-weight: 600;
+      text-align: left; padding: 24px 0; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 20px;
+      transition: color 0.2s;
+    }
+    .faq-q:hover { color: var(--off); }
+    .faq-plus {
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; transition: transform 0.3s var(--ease);
+    }
+    .faq-item.open .faq-plus { transform: rotate(45deg); }
+    .faq-a {
+      font-size: 14px; color: var(--muted); line-height: 1.75;
+      overflow: hidden; max-height: 0; padding: 0;
+      transition: max-height 0.45s var(--ease), padding-bottom 0.45s var(--ease);
+    }
+    .faq-item.open .faq-a { max-height: 280px; padding-bottom: 24px; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      padding: 80px;
+      border-top: 1px solid var(--border);
+      background: var(--black);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ft-brand p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 18px; max-width: 240px; }
+
+    .ft-col h5 {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 20px;
+    }
+    .ft-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .ft-links a { font-size: 13px; color: var(--off); transition: color 0.2s; }
+    .ft-links a:hover { color: var(--white); }
+
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 28px; flex-wrap: wrap; gap: 16px;
+    }
+    .ft-legal { list-style: none; display: flex; gap: 22px; flex-wrap: wrap; }
+    .ft-legal a { font-size: 11px; color: var(--muted); transition: color 0.2s; }
+    .ft-legal a:hover { color: var(--off); }
+    .ft-copy { font-size: 11px; color: var(--muted); }
+
+    /* ─── AI CHAT ─────────────────────────────────────────── */
+    .chat-fab {
+      position: fixed; bottom: 32px; right: 32px; z-index: 9900;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: var(--white); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.3);
+      transition: all 0.3s var(--ease);
+    }
+    .chat-fab:hover { transform: scale(1.08); box-shadow: 0 14px 44px rgba(0,0,0,0.6); }
+    .chat-fab svg { width: 24px; height: 24px; color: var(--black); }
+    .chat-fab .chat-open-icon { display: flex; }
+    .chat-fab .chat-close-icon { display: none; }
+    .chat-fab.open .chat-open-icon { display: none; }
+    .chat-fab.open .chat-close-icon { display: flex; }
+
+    .chat-window {
+      position: fixed; bottom: 104px; right: 32px; z-index: 9800;
+      width: 358px; max-height: 530px;
+      background: #111; border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 26px; overflow: hidden;
+      display: flex; flex-direction: column;
+      box-shadow: 0 28px 90px rgba(0,0,0,0.8);
+      transform: translateY(16px) scale(0.97);
+      opacity: 0; pointer-events: none;
+      transition: all 0.3s var(--ease);
+    }
+    .chat-window.open { transform: none; opacity: 1; pointer-events: all; }
+
+    .chat-head {
+      padding: 18px 22px;
+      background: rgba(255,255,255,0.035);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .chat-av {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(145deg, #282828, #111);
+      border: 1px solid rgba(255,255,255,0.09);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .chat-info h4 { font-size: 13px; font-weight: 700; }
+    .chat-info p { font-size: 11px; color: var(--green); margin-top: 1px; }
+
+    .chat-msgs {
+      flex: 1; overflow-y: auto; padding: 18px; display: flex;
+      flex-direction: column; gap: 10px;
+    }
+    .chat-msgs::-webkit-scrollbar { width: 2px; }
+    .chat-msgs::-webkit-scrollbar-thumb { background: #2a2a2a; }
+
+    .msg {
+      max-width: 86%; padding: 11px 15px; border-radius: 18px;
+      font-size: 13px; line-height: 1.55;
+    }
+    .msg.bot { background: rgba(255,255,255,0.06); color: var(--off); align-self: flex-start; border-radius: 4px 18px 18px 18px; }
+    .msg.user { background: var(--white); color: var(--black); align-self: flex-end; font-weight: 500; border-radius: 18px 18px 4px 18px; }
+
+    .typing {
+      display: none; gap: 4px; align-items: center; align-self: flex-start;
+      background: rgba(255,255,255,0.06); padding: 11px 15px;
+      border-radius: 4px 18px 18px 18px;
+    }
+    .typing.show { display: flex; }
+    .td { width: 6px; height: 6px; background: var(--muted); border-radius: 50%; animation: tdot 1.4s ease-in-out infinite; }
+    .td:nth-child(2) { animation-delay: 0.2s; }
+    .td:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes tdot { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+
+    .quick-replies { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px 10px; }
+    .qr-btn {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.09);
+      color: var(--off); padding: 6px 13px; border-radius: 100px;
+      font-size: 12px; cursor: pointer; transition: all 0.2s;
+      font-family: inherit;
+    }
+    .qr-btn:hover { background: rgba(255,255,255,0.1); }
+
+    .chat-foot {
+      padding: 14px 18px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .chat-inp {
+      flex: 1; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: var(--white); padding: 10px 15px;
+      border-radius: 100px; font-size: 13px; font-family: inherit;
+      outline: none; transition: border-color 0.2s;
+    }
+    .chat-inp:focus { border-color: rgba(255,255,255,0.18); }
+    .chat-inp::placeholder { color: rgba(255,255,255,0.25); }
+    .chat-snd {
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+      background: var(--white); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s;
+    }
+    .chat-snd:hover { transform: scale(1.1); }
+
+    /* ─── SEARCH OVERLAY ─────────────────────────────────── */
+    .search-ov {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(8,8,8,0.96); backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      display: flex; flex-direction: column; align-items: center;
+      padding-top: 18vh; opacity: 0; pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+    .search-ov.open { opacity: 1; pointer-events: all; }
+
+    .s-bar {
+      width: 100%; max-width: 620px; padding: 0 24px;
+    }
+    .s-wrap {
+      display: flex; align-items: center; gap: 14px;
+      background: rgba(255,255,255,0.055); border: 1px solid rgba(255,255,255,0.11);
+      border-radius: 16px; padding: 14px 22px;
+    }
+    .s-inp {
+      flex: 1; background: none; border: none; color: var(--white);
+      font-size: 20px; font-family: inherit; font-weight: 500; outline: none;
+    }
+    .s-inp::placeholder { color: rgba(255,255,255,0.28); }
+    .s-esc {
+      font-size: 11px; color: var(--muted); background: rgba(255,255,255,0.06);
+      padding: 4px 9px; border-radius: 7px; cursor: pointer; border: none;
+      color: var(--muted); font-family: inherit;
+    }
+
+    .s-list { width: 100%; max-width: 620px; padding: 16px 24px 0; }
+    .s-hint { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .s-item {
+      display: flex; align-items: center; gap: 12px; padding: 11px 10px;
+      border-radius: 12px; cursor: pointer; color: var(--off); font-size: 14px;
+      transition: background 0.18s; text-decoration: none;
+    }
+    .s-item:hover { background: rgba(255,255,255,0.06); }
+    .s-icon {
+      width: 32px; height: 32px; border-radius: 9px;
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 1080px) {
+      .nav                 { padding: 18px 36px; }
+      .hero-body           { padding: 0 40px 80px; }
+      .hero-scroll-hint    { right: 40px; }
+      .story, .deserve, .cards-section, .upgrade,
+      .security, .ratings, .faq { padding-left: 40px; padding-right: 40px; }
+      .exclusive .ex-inner { padding: 80px 40px; }
+      footer               { padding: 60px 40px; }
+      .deserve-grid        { grid-template-columns: 1fr; gap: 56px; }
+      .cards-grid          { grid-template-columns: 1fr 1fr; }
+      .footer-grid         { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .search-trigger { display: none; }
+      .hamburger { display: flex; }
+      .nav        { padding: 16px 24px; }
+      .hero-body  { padding: 0 24px 60px; }
+      .hero-scroll-hint { display: none; }
+      .story, .deserve, .cards-section, .upgrade,
+      .security, .ratings, .faq {
+        padding: 80px 24px;
+      }
+      .exclusive .ex-inner { padding: 80px 24px; }
+      footer      { padding: 60px 24px; }
+      .upgrade-grid { grid-template-columns: 1fr; }
+      .u-card       { aspect-ratio: 1.4; }
+      .cards-grid   { grid-template-columns: 1fr; }
+      .footer-grid  { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .chat-window  { width: calc(100vw - 40px); right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="nav" id="mainNav">
+  <div class="nav-logo" onclick="scrollTo({top:0,behavior:'smooth'})">
+    <svg viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 0L0 8V24C0 35.05 8.7 45.35 20 48C31.3 45.35 40 35.05 40 24V8L20 0Z" fill="white"/>
+      <path d="M20 6L6 12V24C6 31.85 12.35 39.15 20 41.4C27.65 39.15 34 31.85 34 24V12L20 6Z" fill="#080808"/>
+      <path d="M15 21L19 25L26 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#payments">Payments</a></li>
+    <li><a href="#rewards">Rewards</a></li>
+    <li><a href="#security">Security</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="search-trigger" id="searchTrigger">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      Search
+      <kbd style="font-size:10px;color:var(--muted);background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:5px;">⌘K</kbd>
+    </button>
+    <button class="btn-nav" onclick="document.getElementById('chatWindow').classList.add('open');document.querySelector('.chat-fab').classList.add('open')">
+      Get the app
+    </button>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-canvas"></div>
+  <div class="hero-arch"></div>
+  <div class="hero-rays">
+    <div class="ray"></div><div class="ray"></div><div class="ray"></div>
+    <div class="ray"></div><div class="ray"></div><div class="ray"></div>
+    <div class="ray"></div><div class="ray"></div><div class="ray"></div>
+  </div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-body" id="heroBody">
+    <p class="hero-eyebrow">CRED — Members Only</p>
+    <h1 class="hero-h1">crafted for<br>the <em>credit</em>worthy</h1>
+    <p class="hero-sub">India's most rewarding platform for those who've proven their trustworthiness. Pay bills. Earn rewards. Ascend.</p>
+    <div class="hero-actions">
+      <button class="btn-white">
+        Get Early Access
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <a href="#story" class="btn-ghost">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <div class="scroll-line"></div>
+    SCROLL
+  </div>
+</section>
+
+<!-- ═══════════ TICKER ═══════════ -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">CREDITWORTHY MEMBERS</span>
+    <span class="ticker-item">PREMIUM REWARDS</span>
+    <span class="ticker-item">SECURE PAYMENTS</span>
+    <span class="ticker-item">CRED COINS</span>
+    <span class="ticker-item">UPI ON CREDIT</span>
+    <span class="ticker-item">TRAVEL BENEFITS</span>
+    <span class="ticker-item">EXCLUSIVE ACCESS</span>
+    <span class="ticker-item">CRED FLASH</span>
+    <span class="ticker-item">CREDITWORTHY MEMBERS</span>
+    <span class="ticker-item">PREMIUM REWARDS</span>
+    <span class="ticker-item">SECURE PAYMENTS</span>
+    <span class="ticker-item">CRED COINS</span>
+    <span class="ticker-item">UPI ON CREDIT</span>
+    <span class="ticker-item">TRAVEL BENEFITS</span>
+    <span class="ticker-item">EXCLUSIVE ACCESS</span>
+    <span class="ticker-item">CRED FLASH</span>
+  </div>
+</div>
+
+<!-- ═══════════ STORY ═══════════ -->
+<section class="story" id="story">
+  <div class="story-inner">
+    <p class="section-label reveal">NOT EVERYONE MAKES IT IN.</p>
+    <h2 class="story-h2 reveal d1">
+      the story of CRED begins with trust.
+      <span class="dim">we believe individuals who've proven their trustworthiness deserve better: better experiences, better rewards, better rules.</span>
+      this is the status quo we're building.
+      <em>make it to the club,</em>
+      and experience the ascension yourself.
+    </h2>
+  </div>
+</section>
+
+<!-- ═══════════ DESERVE ═══════════ -->
+<section class="deserve" id="about">
+  <div class="deserve-grid">
+    <div>
+      <p class="section-label reveal">WHAT YOU GET</p>
+      <h2 class="deserve-h2 reveal d1">all that you deserve.<br>and some more.</h2>
+      <p class="deserve-desc reveal d2">CRED members gain exclusive access to premium experiences, outsized rewards, and financial superpowers that make trustworthiness worth it.</p>
+      <div class="stats-row reveal d3">
+        <div>
+          <div class="stat-num">12M+</div>
+          <div class="stat-lbl">Trusted Members</div>
+        </div>
+        <div>
+          <div class="stat-num">₹5L Cr</div>
+          <div class="stat-lbl">Bills Paid</div>
+        </div>
+        <div>
+          <div class="stat-num">4.8★</div>
+          <div class="stat-lbl">App Rating</div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-wrap reveal d2">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-top">
+            <svg width="20" height="23" viewBox="0 0 40 46" fill="none">
+              <path d="M20 0L0 8V24C0 35.05 8.7 45.35 20 48C31.3 45.35 40 35.05 40 24V8L20 0Z" fill="white" fill-opacity="0.85"/>
+              <path d="M20 6L6 12V24C6 31.85 12.35 39.15 20 41.4C27.65 39.15 34 31.85 34 24V12L20 6Z" fill="#111"/>
+            </svg>
+            <span class="p-time">12:45</span>
+          </div>
+          <div class="p-card">
+            <div class="p-card-lbl">Credit Score</div>
+            <div class="p-card-val">798</div>
+            <div class="p-card-sub">↑ 12 pts this month</div>
+          </div>
+          <div class="p-grid">
+            <div class="p-tile"><div class="p-tile-lbl">CRED Coins</div><div class="p-tile-val">24,500</div></div>
+            <div class="p-tile g"><div class="p-tile-lbl">Savings</div><div class="p-tile-val">₹3,200</div></div>
+            <div class="p-tile"><div class="p-tile-lbl">Due Date</div><div class="p-tile-val">May 15</div></div>
+            <div class="p-tile"><div class="p-tile-lbl">Bill</div><div class="p-tile-val">₹24K</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-glow"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CREDIT CARDS ═══════════ -->
+<section class="cards-section" id="payments">
+  <div class="cards-inner">
+    <p class="section-label reveal">CREDIT CARD BENEFITS</p>
+    <h2 class="cards-h2 reveal d1">do more with your credit cards</h2>
+    <p class="cards-desc reveal d2">Automate payment reminders, unlock hidden rewards, and gain insights that put you in complete control of your credit health.</p>
+    <div class="cards-grid">
+      <div class="f-card reveal d1">
+        <div class="f-icon">💳</div>
+        <h3 class="f-title">All Cards, One Place</h3>
+        <p class="f-desc">Manage every credit card from every bank in a single, elegant dashboard — no more switching between apps.</p>
+      </div>
+      <div class="f-card reveal d2">
+        <div class="f-icon">🔔</div>
+        <h3 class="f-title">Smart Reminders</h3>
+        <p class="f-desc">AI-powered reminders optimize your payment timing to protect your credit score and maximize rewards.</p>
+      </div>
+      <div class="f-card reveal d3">
+        <div class="f-icon">📊</div>
+        <h3 class="f-title">Spending Insights</h3>
+        <p class="f-desc">Intelligent spend categorization surfaces patterns you'd never spot, helping you spend smarter.</p>
+      </div>
+      <div class="f-card reveal d1">
+        <div class="f-icon">🎁</div>
+        <h3 class="f-title">Exclusive Rewards</h3>
+        <p class="f-desc">Earn CRED coins on every bill payment. Redeem for premium experiences, top brands, and cashback.</p>
+      </div>
+      <div class="f-card reveal d2">
+        <div class="f-icon">⚡</div>
+        <h3 class="f-title">Instant Payments</h3>
+        <p class="f-desc">Pay bills in seconds with bank-grade security and consumer-grade speed — every time, guaranteed.</p>
+      </div>
+      <div class="f-card reveal d3">
+        <div class="f-icon">🏆</div>
+        <h3 class="f-title">Member Privileges</h3>
+        <p class="f-desc">Curated deals, airport lounges, and exclusive offers from 1,000+ premium brands — yours to claim.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ UPGRADE ═══════════ -->
+<section class="upgrade" id="rewards">
+  <div class="upgrade-inner">
+    <p class="section-label reveal">UPGRADE YOUR EXPERIENCE</p>
+    <h2 class="upgrade-h2 reveal d1">upgrade your life.<br>bit by bit.</h2>
+    <div class="upgrade-grid">
+
+      <div class="u-card scan reveal d1">
+        <div class="u-bg"></div>
+        <div class="u-body">
+          <div>
+            <p class="u-label">SCAN &amp; PAY</p>
+            <h3 class="u-title">scan any<br>UPI QR</h3>
+            <p class="u-desc">Pay anywhere that accepts UPI using your credit card — every merchant, every transaction.</p>
+          </div>
+          <div class="u-visual">
+            <div class="qr-box"><div class="qr-inner"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="u-card upi reveal d2">
+        <div class="u-bg"></div>
+        <div class="u-body">
+          <div>
+            <p class="u-label">UPI ON CREDIT</p>
+            <h3 class="u-title">UPI payments<br>on credit</h3>
+            <p class="u-desc">Link your credit card to CRED's UPI ID. Pay via any UPI app, earn credit card rewards.</p>
+          </div>
+          <div class="u-visual">
+            <div>
+              <div class="upi-amt">₹2,499</div>
+              <div class="upi-sub">PAID VIA CREDIT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="u-card tap reveal d3">
+        <div class="u-bg"></div>
+        <div class="u-body">
+          <div>
+            <p class="u-label">TAP TO PAY</p>
+            <h3 class="u-title">tap your<br>phone, pay</h3>
+            <p class="u-desc">NFC payments from your phone — no card needed. Just tap and walk away.</p>
+          </div>
+          <div class="u-visual">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div class="tap-ring">📱</div>
+              <div>
+                <div style="font-size:13px;font-weight:700;">NFC Ready</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:3px;">Tap to activate</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SECURITY ═══════════ -->
+<section class="security" id="security">
+  <div class="sec-inner">
+    <div class="shield-svg reveal">
+      <svg viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M38 4L8 15V36C8 55 21.5 71.5 38 76C54.5 71.5 68 55 68 36V15L38 4Z"
+          fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
+        <path d="M38 13L18 21V36C18 51 28.5 64.5 38 68C47.5 64.5 58 51 58 36V21L38 13Z"
+          fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        <path d="M28 36.5L35 43.5L50 28.5" stroke="white" stroke-width="3"
+          stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+      </svg>
+    </div>
+    <h2 class="sec-h2 reveal d1">feel the odds<br>fall in your favor</h2>
+    <p class="sec-tag reveal d2">YOUR DATA ISN'T OUR BUSINESS. KEEPING IT SAFE IS.</p>
+    <p class="sec-body reveal d3">
+      all your personal data and transactions are encrypted and secured. there's no room for mistakes because we didn't leave any.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════ RATINGS ═══════════ -->
+<section class="ratings">
+  <div class="ratings-inner">
+    <p class="section-label reveal">TRUSTED BY MILLIONS</p>
+    <h2 class="ratings-h2 reveal d1">the proof<br>writes itself.</h2>
+    <div class="rating-row">
+      <div class="r-card reveal d2">
+        <div class="r-store">App Store</div>
+        <div class="r-score">4.8</div>
+        <div class="r-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span class="half">★</span>
+        </div>
+        <div class="r-count">4.2L+ ratings</div>
+      </div>
+      <div class="r-card reveal d3">
+        <div class="r-store">Play Store</div>
+        <div class="r-score">4.8</div>
+        <div class="r-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span class="half">★</span>
+        </div>
+        <div class="r-count">8L+ ratings</div>
+      </div>
+    </div>
+    <div class="trusted-badge reveal d4">
+      <div class="badge-dot"></div>
+      <span>Trusted by 12 million creditworthy members</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ EXCLUSIVE / NOT EVERYONE ═══════════ -->
+<section class="exclusive">
+  <div class="ex-bg"></div>
+  <div class="door-glow"></div>
+  <div class="door-arch"></div>
+  <div class="ex-inner">
+    <p class="section-label reveal" style="text-align:center;">BY INVITATION ONLY</p>
+    <h2 class="ex-h2 reveal d1">not<br>everyone<br>gets it</h2>
+    <p class="ex-desc reveal d2">The good things in life, like CRED membership, are for the few who've earned it. A high credit score is the price of admission to a world that makes every rupee count.</p>
+    <div class="reveal d3">
+      <button class="btn-white">Check Your Eligibility</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FAQ ═══════════ -->
+<section class="faq">
+  <div class="faq-inner">
+    <h2 class="faq-h2 reveal">FAQs</h2>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFAQ(this)">Who is eligible to join CRED? <div class="faq-plus">+</div></button>
+      <div class="faq-a">CRED is exclusive to individuals with a credit score of 750 or above. Your score is verified against CIBIL, Equifax, or Experian at the time of onboarding. If your score qualifies, you're welcome to the club.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFAQ(this)">How do I earn and use CRED coins? <div class="faq-plus">+</div></button>
+      <div class="faq-a">You earn CRED coins every time you pay a credit card bill through CRED. The coins you earn depend on your bill amount and membership tier. Coins can be redeemed for premium brand vouchers, cashback, travel experiences, and exclusive member offers.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFAQ(this)">Is my data safe with CRED? <div class="faq-plus">+</div></button>
+      <div class="faq-a">Absolutely. CRED uses 256-bit bank-grade encryption across all transactions and stored data. We are PCI DSS compliant, follow all RBI guidelines, and your data is never sold to third parties — ever. Your privacy is our commitment.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFAQ(this)">What is UPI on Credit? <div class="faq-plus">+</div></button>
+      <div class="faq-a">UPI on Credit lets you link your credit card to CRED's UPI ID, enabling you to make payments at any UPI merchant using your credit card's available limit. You get the credit period and rewards of a credit card at places that only accept UPI.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFAQ(this)">How does CRED make money if it's free to use? <div class="faq-plus">+</div></button>
+      <div class="faq-a">CRED generates revenue through brand partnerships, curated financial product recommendations tailored to your profile, and fees from payment products. We do not monetise your personal data — our business model is aligned with your interests, not against them.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="ft-brand">
+      <svg width="34" height="39" viewBox="0 0 40 46" fill="none">
+        <path d="M20 0L0 8V24C0 35.05 8.7 45.35 20 48C31.3 45.35 40 35.05 40 24V8L20 0Z" fill="white"/>
+        <path d="M20 6L6 12V24C6 31.85 12.35 39.15 20 41.4C27.65 39.15 34 31.85 34 24V12L20 6Z" fill="#080808"/>
+        <path d="M15 21L19 25L26 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <p>India's most rewarding platform for the creditworthy. Built for those who've proven their trustworthiness.</p>
+    </div>
+    <div class="ft-col">
+      <h5>NEW LAUNCH</h5>
+      <ul class="ft-links">
+        <li><a href="#">CRED UPI</a></li>
+        <li><a href="#">CRED Flash</a></li>
+        <li><a href="#">CRED Mint</a></li>
+        <li><a href="#">CRED Travel</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>SPONSORED</h5>
+      <ul class="ft-links">
+        <li><a href="#">Payments</a></li>
+        <li><a href="#">Rewards</a></li>
+        <li><a href="#">Design</a></li>
+        <li><a href="#">INSIDER</a></li>
+        <li><a href="#">PASS</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>COMPANY</h5>
+      <ul class="ft-links">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>RESOURCES</h5>
+      <ul class="ft-links">
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <ul class="ft-legal">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Use</a></li>
+      <li><a href="#">Cookie Policy</a></li>
+      <li><a href="#">Grievance Policy</a></li>
+    </ul>
+    <p class="ft-copy">© 2024 Dreamplug Technologies Pvt. Ltd.</p>
+  </div>
+</footer>
+
+<!-- ═══════════ AI CHATBOT ═══════════ -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="CRED AI Assistant">
+  <span class="chat-open-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  </span>
+  <span class="chat-close-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M18 6L6 18M6 6l12 12"/>
+    </svg>
+  </span>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-head">
+    <div class="chat-av">
+      <svg width="18" height="21" viewBox="0 0 40 46" fill="none">
+        <path d="M20 0L0 8V24C0 35.05 8.7 45.35 20 48C31.3 45.35 40 35.05 40 24V8L20 0Z" fill="white"/>
+        <path d="M20 6L6 12V24C6 31.85 12.35 39.15 20 41.4C27.65 39.15 34 31.85 34 24V12L20 6Z" fill="#111"/>
+      </svg>
+    </div>
+    <div class="chat-info">
+      <h4>CRED AI</h4>
+      <p>● Online · Always here</p>
+    </div>
+  </div>
+  <div class="chat-msgs" id="chatMsgs">
+    <div class="msg bot">Hey! I'm CRED's AI assistant. Ask me anything about membership, rewards, payments, or security.</div>
+  </div>
+  <div class="typing" id="chatTyping">
+    <div class="td"></div><div class="td"></div><div class="td"></div>
+  </div>
+  <div class="quick-replies" id="quickReplies">
+    <button class="qr-btn" onclick="quickReply('Am I eligible for CRED?')">Eligibility</button>
+    <button class="qr-btn" onclick="quickReply('How do rewards work?')">Rewards</button>
+    <button class="qr-btn" onclick="quickReply('Is CRED safe to use?')">Security</button>
+    <button class="qr-btn" onclick="quickReply('What is UPI on Credit?')">UPI Credit</button>
+  </div>
+  <div class="chat-foot">
+    <input class="chat-inp" id="chatInp" placeholder="Ask anything…" onkeypress="chatKey(event)" />
+    <button class="chat-snd" onclick="chatSend()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#080808" stroke-width="2.5">
+        <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════ SEARCH OVERLAY ═══════════ -->
+<div class="search-ov" id="searchOv" onclick="closeSearch(event)">
+  <div class="s-bar" onclick="event.stopPropagation()">
+    <div class="s-wrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input class="s-inp" id="sInp" placeholder="Search CRED…" />
+      <button class="s-esc" onclick="closeSearch()">ESC</button>
+    </div>
+  </div>
+  <div class="s-list" onclick="event.stopPropagation()">
+    <div class="s-hint">Quick Links</div>
+    <a href="#about"    class="s-item" onclick="closeSearch()"><span class="s-icon">✨</span>Features &amp; Benefits</a>
+    <a href="#payments" class="s-item" onclick="closeSearch()"><span class="s-icon">💳</span>Credit Card Payments</a>
+    <a href="#rewards"  class="s-item" onclick="closeSearch()"><span class="s-icon">🎁</span>Rewards &amp; Coins</a>
+    <a href="#security" class="s-item" onclick="closeSearch()"><span class="s-icon">🛡️</span>Security &amp; Privacy</a>
+    <a href="#story"    class="s-item" onclick="closeSearch()"><span class="s-icon">📖</span>Our Story</a>
+  </div>
+</div>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+  /* --- nav scroll --- */
+  const mainNav = document.getElementById('mainNav');
+  let lastY = 0;
+  addEventListener('scroll', () => {
+    const y = scrollY;
+    const scrollingUp = y < lastY;
+    // show white nav only when actively scrolling UP and not near the top
+    mainNav.classList.toggle('scrolled', scrollingUp && y > 80);
+    lastY = y;
+  }, { passive: true });
+
+  /* --- hero parallax --- */
+  const heroBody = document.getElementById('heroBody');
+  addEventListener('scroll', () => {
+    if (scrollY < innerHeight) {
+      heroBody.style.transform = `translateY(${scrollY * 0.28}px)`;
+      heroBody.style.opacity = Math.max(0, 1 - scrollY / (innerHeight * 0.65));
+    }
+  });
+
+  /* --- reveal on scroll --- */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* --- card stagger --- */
+  const cio = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll('.f-card, .u-card, .r-card').forEach((c, i) => {
+        setTimeout(() => {
+          c.style.opacity = '1';
+          c.style.transform = 'translateY(0)';
+        }, i * 90);
+      });
+    });
+  }, { threshold: 0.06 });
+
+  document.querySelectorAll('.cards-grid, .upgrade-grid, .rating-row').forEach(wrap => {
+    wrap.querySelectorAll('.f-card, .u-card, .r-card').forEach(c => {
+      c.style.cssText += 'opacity:0;transform:translateY(22px);transition:opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)';
+    });
+    cio.observe(wrap);
+  });
+
+  /* --- FAQ --- */
+  function toggleFAQ(btn) {
+    const item = btn.closest('.faq-item');
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!open) item.classList.add('open');
+  }
+
+  /* --- Search --- */
+  const searchOv = document.getElementById('searchOv');
+  const sInp = document.getElementById('sInp');
+
+  function openSearch() { searchOv.classList.add('open'); setTimeout(() => sInp.focus(), 60); }
+  function closeSearch(e) {
+    if (!e || e.target === searchOv) { searchOv.classList.remove('open'); sInp.value = ''; }
+  }
+
+  document.getElementById('searchTrigger').onclick = openSearch;
+
+  addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+    if (e.key === 'Escape') closeSearch();
+  });
+
+  /* --- Chat --- */
+  const chatFab    = document.getElementById('chatFab');
+  const chatWindow = document.getElementById('chatWindow');
+  const chatMsgs   = document.getElementById('chatMsgs');
+  const chatTyping = document.getElementById('chatTyping');
+  const quickRepliesEl = document.getElementById('quickReplies');
+
+  function toggleChat() {
+    const open = chatWindow.classList.toggle('open');
+    chatFab.classList.toggle('open', open);
+  }
+
+  const aiBank = {
+    eligible: 'CRED is available to individuals with a credit score of 750+. Your score is checked against CIBIL, Equifax, or Experian at signup. Download the app and enter your details to check eligibility instantly.',
+    rewards:  'You earn CRED coins on every credit card bill you pay through CRED. Coins scale with your bill amount and tier. Redeem them for premium vouchers, cashback, travel deals, and exclusive brand offers.',
+    security: 'CRED uses 256-bit bank-grade encryption on all transactions and stored data. We\'re PCI DSS compliant, RBI-regulated, and we never sell your data to third parties — ever.',
+    upi:      'UPI on Credit links your credit card to a CRED UPI ID. You can then pay via any UPI-enabled merchant or app using your card\'s credit limit — giving you rewards and credit period everywhere UPI is accepted.',
+    score:    'A great credit score reflects on-time payments, low utilisation, a long credit history, and minimal hard enquiries. Paying bills on time via CRED directly helps protect and grow your score.',
+    default:  'CRED is India\'s most rewarding platform for the creditworthy — bill payments, UPI on credit, exclusive rewards, and more. What would you like to know specifically?'
+  };
+
+  function getAIReply(msg) {
+    const m = msg.toLowerCase();
+    if (/eligib|join|member|qualify/.test(m)) return aiBank.eligible;
+    if (/reward|coin|earn|redeem/.test(m))   return aiBank.rewards;
+    if (/safe|secur|privac|encrypt/.test(m)) return aiBank.security;
+    if (/upi|credit pay/.test(m))            return aiBank.upi;
+    if (/score|cibil|credit score/.test(m))  return aiBank.score;
+    return aiBank.default;
+  }
+
+  function addMsg(text, type) {
+    const div = document.createElement('div');
+    div.className = `msg ${type}`;
+    div.textContent = text;
+    chatMsgs.appendChild(div);
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+  }
+
+  function chatSend() {
+    const inp = document.getElementById('chatInp');
+    const txt = inp.value.trim();
+    if (!txt) return;
+    addMsg(txt, 'user');
+    inp.value = '';
+    quickRepliesEl.style.display = 'none';
+    chatTyping.classList.add('show');
+    setTimeout(() => {
+      chatTyping.classList.remove('show');
+      addMsg(getAIReply(txt), 'bot');
+    }, 1100 + Math.random() * 700);
+  }
+
+  function quickReply(txt) { document.getElementById('chatInp').value = txt; chatSend(); }
+  function chatKey(e) { if (e.key === 'Enter') chatSend(); }
+</script>
+</body>
+</html>
