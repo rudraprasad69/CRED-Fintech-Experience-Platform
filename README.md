@@ -60,10 +60,6 @@ A live version of the application is hosted here:
   </a>
 </p>
 
-<p align="center">
-  <a href="https://youtu.be/l9b0cWi2kYM">https://youtu.be/l9b0cWi2kYM</a>
-</p>
-
 ---
 
 ## ✨ Key Features
