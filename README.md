@@ -23,7 +23,6 @@
   <img src="https://img.shields.io/badge/🎥_DEMO_VIDEO-000000?style=for-the-badge" alt="Demo Video" />
   <img src="https://img.shields.io/badge/✨_FEATURES-000000?style=for-the-badge" alt="Features" />
   <img src="https://img.shields.io/badge/🛠️_TECHNOLOGIES-000000?style=for-the-badge" alt="Technologies" />
-  <img src="https://img.shields.io/badge/⚙️_SETUP-000000?style=for-the-badge" alt="Setup" />
 </p>
 
 </div>
