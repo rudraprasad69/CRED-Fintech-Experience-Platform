@@ -120,6 +120,9 @@ A live version of the application is hosted here:
 
 ---
 
+<img width="3564" height="2220" alt="diagram" src="https://github.com/user-attachments/assets/e31dfab8-b63e-4bad-a85a-a05155b47d09" />
+
+
 ## 📦 Project Directory Structure
 
 ```text
